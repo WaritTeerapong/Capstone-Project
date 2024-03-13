@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp'
+    
+    # apps
+    'users',
+    'admins',
+    'items',
+    
+
 ]
 
 MIDDLEWARE = [
@@ -76,10 +82,15 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'Finder',
+        'USER': 'smart',
+        'PASSWORD': '1245',
+        'HOST': 'localhost',
+        'PORT': '5432', # default PostgreSQL port
     }
 }
+
 
 
 # Password validation

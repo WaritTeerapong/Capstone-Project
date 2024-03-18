@@ -62,7 +62,7 @@ class Item(models.Model):
         return self.itemName
 
 class Request(models.Model):
-    requestID = models.AutoField(primary_key=True)
+    requestID = models.AutoField(primary_key=True, unique=True)
     userID = models.ForeignKey( to = User, on_delete=models.CASCADE)
     placeID = models.ForeignKey( to = Place, on_delete=models.CASCADE)
     categoryID = models.ForeignKey( to = Category, on_delete=models.CASCADE)

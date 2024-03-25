@@ -12,7 +12,7 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     tel = models.CharField(max_length=20)
-    Password = models.CharField(max_length=256)
+    password = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name

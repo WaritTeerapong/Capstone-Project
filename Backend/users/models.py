@@ -9,6 +9,7 @@ from django.utils import timezone
 
 # Create your models here.
 class User(models.Model):
+    userID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     tel = models.CharField(max_length=20)

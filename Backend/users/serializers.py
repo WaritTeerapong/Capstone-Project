@@ -26,7 +26,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = '__all__'
         
-class RequestSerializer(serializers.ModelSerializer):   
+class UserRequestSerializer(serializers.ModelSerializer):   
     class Meta:
         model = Request
         fields = '__all__'  

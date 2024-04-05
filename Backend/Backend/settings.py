@@ -23,11 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-    
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
@@ -47,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'cloudinary',
     
     # apps
     'users',
@@ -97,10 +94,6 @@ DATABASES = {
 }
 
 
-SUPABASE_URL = env('SUPABASE_URL')
-SUPABASE_KEY = env('SUPABASE_KEY')
-SUPABASE_BUCKET = env('SUPABASE_BUCKET')
-
 
 
 # Password validation
@@ -144,11 +137,21 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Base url to serve media files
-MDIA_URL = '/media/'
+# Cloudinary imports
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
-# Path where media is stored'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Cloudinary-Django integrates
 
-DEFAULT_FILE_STORAGE = "item_image.storage.SupabaseStorage"
-
+# cloudinary.config(
+#     cloud_name = env('CLOUD_NAME'),
+#     api_key= env('API_KEY'),
+#     api_secret= env('API_SECRET')
+# )
+cloudinary.config(
+    cloud_name="dawag1vtj",
+    api_key="413988434369444",
+    api_secret="L83bzDSlnGpwiFS2BbA4xltjwOI",
+    secure=True,
+)

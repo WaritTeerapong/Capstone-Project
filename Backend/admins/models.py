@@ -8,7 +8,7 @@ class Admin(models.Model):
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     tel = models.CharField(max_length=20)
-    Password = models.CharField(max_length=256)
+    password = models.CharField(max_length=256)
     
     def __str__(self):
         return self.name
@@ -18,11 +18,11 @@ class Post(models.Model):
     adminID = models.ForeignKey(to = Admin, on_delete=models.CASCADE)
     itemID = models.ForeignKey(to = Item, on_delete=models.CASCADE)
     isActive = models.BooleanField(default=True)
-    datePost = models.DateField()
+    datePost = models.DateTimeField()
     
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
-        if not self.id:
+        if not self.postID:
             self.created = timezone.now()
         self.modified = timezone.now()
         return super(Post, self).save(*args, **kwargs)

@@ -11,16 +11,20 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+
+env = environ.Env()
+#environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$9g(&vh9kw_%7cqx_fvz28yjc%ms8eetha@a3f6s2%!taxx9z#'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,12 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'cloudinary',
+    
     # apps
     'users',
     'admins',
 
-
-    
 
 ]
 
@@ -77,20 +82,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Backend.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Finder',
-        'USER': 'smart',
-        'PASSWORD': '1245',
-        'HOST': 'localhost',
-        'PORT': '5432', # default PostgreSQL port
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'), # default PostgreSQL port
     }
 }
+
 
 
 
@@ -134,3 +136,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cloudinary imports
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Cloudinary-Django integrates
+
+# cloudinary.config(
+#     cloud_name = env('CLOUD_NAME'),
+#     api_key= env('API_KEY'),
+#     api_secret= env('API_SECRET')
+# )
+cloudinary.config(
+    cloud_name="dawag1vtj",
+    api_key="413988434369444",
+    api_secret="L83bzDSlnGpwiFS2BbA4xltjwOI",
+    secure=True,
+)

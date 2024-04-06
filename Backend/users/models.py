@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
 
 # from django.apps import apps
@@ -9,10 +10,11 @@ from django.utils import timezone
 
 # Create your models here.
 class User(models.Model):
+    userID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
     tel = models.CharField(max_length=20)
-    Password = models.CharField(max_length=256)
+    password = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name
@@ -47,13 +49,14 @@ class Item(models.Model):
     itemName = models.CharField(max_length=100)
     itemDetail = models.TextField()
     placeDetail = models.TextField()
-    image = models.CharField(max_length=512)
+    image = CloudinaryField('image')
     isFound = models.BooleanField( default=False)
-    dateFound = models.DateField()
+    dateFound = models.DateTimeField()
     
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
-        if not self.id:
+        if not self.itemID:
+            
             self.created = timezone.now()
         self.modified = timezone.now()
         return super(Item, self).save(*args, **kwargs)
@@ -68,14 +71,14 @@ class Request(models.Model):
     categoryID = models.ForeignKey( to = Category, on_delete=models.CASCADE)
     placeDetail = models.TextField()
     itemDetail = models.TextField()
-    image = models.CharField(max_length=512)
+    image = CloudinaryField('image')
     isApproved = models.BooleanField( default=False)
-    dateLost = models.DateField()
-    dateRequest = models.DateField( auto_now_add=True)
+    dateLost = models.DateTimeField()
+    dateRequest = models.DateTimeField( auto_now_add=True)
     
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
-        if not self.id:
+        if not self.requestID:
             self.created = timezone.now()
         self.modified = timezone.now()
         return super(Request, self).save(*args, **kwargs)

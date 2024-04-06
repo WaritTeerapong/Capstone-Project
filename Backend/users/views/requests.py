@@ -1,7 +1,7 @@
 
 from django.http import JsonResponse
-from models import Request
-from serializers import UserRequestSerializer
+from users.models import Request
+from users.serializers import UserRequestSerializer
 
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response

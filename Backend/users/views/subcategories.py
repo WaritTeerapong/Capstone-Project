@@ -1,6 +1,6 @@
 from django.http import JsonResponse
-from models import SubCategory
-from serializers import SubCategorySerializer
+from users.models import SubCategory
+from users.serializers import SubCategorySerializer
 
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response

@@ -1,48 +1,50 @@
 from django.http import JsonResponse
-from models import Place
-from serializers import PlaceSerializer
+from users.models import Category
+from users.serializers import CategorySerializer
 
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
 from rest_framework import status
 
-
-#-------------------------------------- place
+#-------------------------------------- catergory
 @api_view(['GET', 'POST'])
-def places_list(request):
-    
+def categories_list(request):
+
     if request.method == 'GET':
-        places = Place.objects.all()
-        serializer = PlaceSerializer(places, many=True)
-        return JsonResponse({"places":serializer.data}, safe=False)
+        category = Category.objects.all()
+
+        serializer = CategorySerializer(category, many=True)
+        return JsonResponse({"category":serializer.data}, safe=False)
+    
+    #POST a new category
     elif request.method == 'POST':
-        serializer = PlaceSerializer(data=request.data)
+        serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
 @api_view(['GET', 'PUT', 'DELETE'])
-def place_by_id(request, id):
+def category_by_id(request, id):
     
     try:
-        place = Place.objects.get(pk=id)
-    except Place.DoesNotExist:
-        return Response("Place ID not found", status=status.HTTP_404_NOT_FOUND)
+        category = Category.objects.get(pk=id)
+    except Category.DoesNotExist:
+        return Response("Category ID not found", status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = PlaceSerializer(place)
+        serializer = CategorySerializer(category)
         return JsonResponse(serializer.data)
     
     elif request.method == 'PUT':
-        serializer = PlaceSerializer(place, data=request.data)
+        serializer = CategorySerializer(category, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
-        place.delete()
+        category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

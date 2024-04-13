@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -150,8 +151,8 @@ import cloudinary.api
 #     api_secret= env('API_SECRET')
 # )
 cloudinary.config(
-    cloud_name="dawag1vtj",
-    api_key="413988434369444",
-    api_secret="L83bzDSlnGpwiFS2BbA4xltjwOI",
+    cloud_name=env('CLOUD_NAME'),
+    api_key=env("API_KEY"),
+    api_secret=env("API_SECRET"),
     secure=True,
 )

@@ -31,3 +31,8 @@ class UserRequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = '__all__'  
         
+class SignUpSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'

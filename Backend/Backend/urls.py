@@ -23,8 +23,8 @@ urlpatterns = [
     
     #path('', views.index),
     
-    path('', include('users.urls')), # Include the urls from the users app
-    path('admins/', include('admins.urls')), # Include the urls from the admins app
+    path('user-api/', include('users.urls')), # Include the urls from the users app
+    path('admin-api/', include('admins.urls')), # Include the urls from the admins app
     
     path("admin/", admin.site.urls),
     

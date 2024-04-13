@@ -1,12 +1,13 @@
 from django.db import models
 from users.models import Item, Request
 from django.utils import timezone
+from django.core.validators import validate_email
 
 # Create your models here.
 class Admin(models.Model):
     adminID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, validators=[validate_email])
     tel = models.CharField(max_length=20)
     password = models.CharField(max_length=256)
     
@@ -28,7 +29,7 @@ class Post(models.Model):
         return super(Post, self).save(*args, **kwargs)
     
     def __str__(self):
-        return self.postID
+        return str(self.postID)
     
 class PostRequest(models.Model):
     postID = models.ForeignKey(to = Post, on_delete=models.CASCADE)

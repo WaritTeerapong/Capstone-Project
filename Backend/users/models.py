@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
-
+from django.core.validators import validate_email
 
 # from django.apps import apps
 # Place = apps.get_model('items', 'Place')
@@ -12,7 +12,7 @@ from cloudinary.models import CloudinaryField
 class User(models.Model):
     userID = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, validators=[validate_email])
     tel = models.CharField(max_length=20)
     password = models.CharField(max_length=256)
 

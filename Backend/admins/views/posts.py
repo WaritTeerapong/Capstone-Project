@@ -12,7 +12,7 @@ def posts_list(request):
     if request.method == 'GET':
         posts = Post.objects.all()
         serializer = PostSerializer(posts, many=True)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data,safe=False)
     
     elif request.method == 'POST':
         serializer = PostSerializer(data=request.data)

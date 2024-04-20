@@ -1,3 +1,7 @@
+const colors = require('tailwindcss/colors');
+import Image from "next/image";
+import Link from 'next/link';
+import { useRouter } from 'next/router'
 export default function Home() {
     return (
       <div className="flex flex-col items-center justify-center w-[1920px] h-[1080px] py-2">

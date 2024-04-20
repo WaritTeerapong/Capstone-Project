@@ -1,0 +1,28 @@
+train: ../newdataset/images/train
+val:   ../newdataset/images/val
+test:  ../newdataset/images/test
+
+nc: 22  # จำนวนคลาสทั้งหมด
+names:
+  0: Apple Pencil
+  1: Bag
+  2: Calculator
+  3: Card
+  4: Cup
+  5: Earphone
+  6: Eyeglasses
+  7: Flashlight
+  8: Headphone
+  9: Helmet
+  10: Key
+  11: Laptop
+  12: Mouse
+  13: Passport
+  14: Pen
+  15: Phone
+  16: Sneaker
+  17: Socks
+  18: Umbrella
+  19: Watch
+  20: Water Bottle
+  21: iPad

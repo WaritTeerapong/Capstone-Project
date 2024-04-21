@@ -17,7 +17,7 @@ from .PasswordManagement import CheckPasswordStrength,HashingPassword
 @api_view(['GET','POST'])
 def signup(req):
     
-    users = User.objects.all() # Entry.objects.all() = query all data from the Entry table in database
+    '''users = User.objects.all() # Entry.objects.all() = query all data from the Entry table in database'''
 
     if req.method == 'POST':
 
@@ -28,9 +28,9 @@ def signup(req):
             return Response(data={'message':str(e) for e in error}, status=status.HTTP_400_BAD_REQUEST) #str(error) for error in e -> convert list to string
         
         #check if email already exists
-        for user in users:
-            if req.data['email'] == user.email:
-                return Response(data={'message':'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        usersIsExisted = User.objects.filter(email=req.data['email']).exists()
+        if usersIsExisted:
+            return Response(data={'message':'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
         
         #checking password strength
         message = CheckPasswordStrength(req.data['password'])

@@ -33,8 +33,7 @@ def CheckPasswordStrength(password):
         message += "Password must contain at least one number\n"
     if not isSpecial:
         message += "Password must contain at least one special character\n"
-     
-        
+    #return required message
     return message
 
 #hashing password
@@ -47,11 +46,12 @@ def HashingPassword (password):
     hash = bcrypt.hashpw(bytes, salt).decode('utf-8')
     return hash
   
-def MatchPassword (password,hashedPassword):
-    # encoding user password 
+def MatchingPassword (password,hashedPassword):
+    # encoding user password to array of bytes
     userBytes = password.encode('utf-8') 
     hashedPassword = hashedPassword.encode('utf-8')
     # checking password 
     result = bcrypt.checkpw(userBytes, hashedPassword) 
     #return as boolean
     return result 
+

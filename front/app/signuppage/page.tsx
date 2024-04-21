@@ -67,7 +67,7 @@ export default function Home() {
     <button className="bg-Rectangle2 hover:bg-blue-700 text-white font-semibold w-[500px] h-[70px] ml-[234px]  rounded-[10px] text-[24px]">Sign Up </button>
     
    
-<a className="text-loginco mt-[20px] ml-[387px] ">Have an account?<Link href="/front/app/signuppage" className="text-background font-normal text-[16px]   ]"> Login</Link> </a>
+<a className="text-loginco mt-[20px] ml-[387px] ">Have an account?<Link href="" className="text-background font-normal text-[16px]   ]"> Login</Link> </a>
                     
 
 

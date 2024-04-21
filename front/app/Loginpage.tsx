@@ -42,7 +42,7 @@ export default function () {
     </div>
     <label className="flex items-center gap-2 text-black ml-[234px]">
       <input type="checkbox" className="accent-black scale-125 "/> Remember Password
-      <Link href="front\app\ForgetPassword.tsx" className="text-loginco font-normal text-[16px] ml-[130px]  ]">Forget Password?</Link>
+      <Link href="front\app\ForgetPassword.tsx" className="text-loginco font-normal text-[16px] ml-[130px]  ]">{/*  Forget Password */}</Link>
     </label>
     
     <button className="bg-Rectangle2 hover:bg-blue-700 text-white font-semibold w-[500px] h-[70px] ml-[234px] mt-[60px]  rounded-[10px] text-[24px]">Login</button>

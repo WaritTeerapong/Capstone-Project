@@ -13,7 +13,7 @@ def logout(req):
             response.data = {'message':'Log out successfully'}
             response.status = status.HTTP_200_OK
             
-        except ValidationError as error:
+        except Exception as error:
             response.data = {'message':str(e) for e in error}
             response.status = status.HTTP_400_BAD_REQUEST
 

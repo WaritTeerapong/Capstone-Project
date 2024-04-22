@@ -9,3 +9,4 @@ from .requests import *
 
 from .signup import *
 from .login import *
+from .logout import *

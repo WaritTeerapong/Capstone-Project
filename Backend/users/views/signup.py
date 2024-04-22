@@ -56,5 +56,5 @@ def signup(req):
         # everything is ok so far
         return Response(data={'message':'User created successfully'}, status=status.HTTP_201_CREATED)
         
-    return Response(data={'message':'Something wrong'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    return Response(data={'message':'Status not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
         

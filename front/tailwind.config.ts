@@ -11,8 +11,8 @@ const config: Config = {
       colors:{
         background:"#1C2F93",
         Rectangle2:"#1f2f85",
-        loginco:"#2D3648"
-        
+        loginco:"#2D3648",
+        bordergrey:"#2D364880" 
         
       }
     },

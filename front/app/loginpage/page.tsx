@@ -48,7 +48,7 @@ export default function () {
     <button className="bg-Rectangle2 hover:bg-blue-700 text-white font-semibold w-[500px] h-[70px] ml-[234px] mt-[60px]  rounded-[10px] text-[24px]">Login</button>
     
    
-<h1 className="text-loginco mt-[51px] ml-[320px] ">Don’t have an account? <Link href="front\app\signuppage.tsx" className="text-background font-normal text-[16px]   ]">Create an Account</Link> </h1>
+<h1 className="text-loginco mt-[51px] ml-[320px] ">Don’t have an account? <Link href="/signuppage" className="text-background font-normal text-[16px]   ]">Create an Account</Link> </h1>
                     
 
 

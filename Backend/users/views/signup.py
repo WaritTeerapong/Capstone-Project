@@ -30,7 +30,12 @@ def signup(req):
         #check if email already exists
         usersIsExisted = User.objects.filter(email=req.data['email']).exists()
         if usersIsExisted:
-            return Response(data={'message':'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'message':'This Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        #check if telephone already exists
+        telIsExisted = User.objects.filter(tel=req.data['tel']).exists()
+        if telIsExisted:
+            return Response(data={'message':'This Telephone number already exists'}, status=status.HTTP_400_BAD_REQUEST)
         
         #checking password strength
         message = CheckPasswordStrength(req.data['password'])

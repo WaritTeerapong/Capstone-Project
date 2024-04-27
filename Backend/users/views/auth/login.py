@@ -5,7 +5,7 @@ from rest_framework import status
 
 from users.models import User
 from users.decorator import is_login
-from . PasswordManagement import MatchingPassword
+from ..PasswordManagement import MatchingPassword
 
 import jwt, datetime
 import environ

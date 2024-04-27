@@ -16,6 +16,7 @@ def logout(req):
         except Exception as error:
             response.data = {'message':str(e) for e in error}
             response.status = status.HTTP_400_BAD_REQUEST
+            return response
 
         return response
     

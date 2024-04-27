@@ -3,17 +3,18 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.core.exceptions import ValidationError
-
 from users.models import User
-
+from users.decorator import is_login
 from . PasswordManagement import MatchingPassword
+
 import jwt, datetime
 import environ
 
 env = environ.Env()
 
+
 @api_view(['GET','POST'])
+@is_login
 def login(req):
     if req.method == 'POST':
         try:
@@ -29,10 +30,9 @@ def login(req):
             if not MatchingPassword(password,user.password):
                 return Response(data={'message':'Incorrect Password'}, status=status.HTTP_400_BAD_REQUEST)
             
-            #generate token using (rest framework token) 
-            
+            #generate token using (rest framework token)             
             payload = {
-                'id' : user.email,
+                'id' : user.userID,
                 'exp' : datetime.datetime.now() + datetime.timedelta(minutes=60),
                 'iat' : datetime.datetime.now()
             }
@@ -41,12 +41,11 @@ def login(req):
             response = Response()
             
             response.set_cookie(key='token', value=token, httponly=True)
-            response.data = {'message':'Log in successfully','token':token}
+            response.data = {'message':'Log in successfully'}
             response.status = status.HTTP_200_OK
             
         except Exception as error:
-            response.data = {'message':str(e) for e in error}
-            response.status = status.HTTP_400_BAD_REQUEST
+            return Response(data={'message': "Python error : "+ str(error) }, status=status.HTTP_400_BAD_REQUEST)
         
         return response
     

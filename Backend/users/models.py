@@ -3,9 +3,7 @@ from django.utils import timezone
 from cloudinary.models import CloudinaryField
 from django.core.validators import validate_email
 
-# from django.apps import apps
-# Place = apps.get_model('items', 'Place')
-# Category = apps.get_model('items', 'Category')
+import torch.nn as nn
 
 
 # Create your models here.
@@ -20,21 +18,13 @@ class User(models.Model):
         return self.name
 
 class Category(models.Model):
-    categoryID = models.AutoField(primary_key=True)
+    categoryID = models.IntegerField(primary_key=True)
     cateName = models.CharField(max_length=100)
     def __str__(self):
         return self.cateName
     
-class SubCategory(models.Model):
-    subCateID = models.AutoField(primary_key=True)
-    categoryID = models.ForeignKey( to = Category, on_delete=models.CASCADE)
-    subCateName = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.subCateName
-    
 class Place(models.Model):
-    placeID = models.AutoField(primary_key=True)
+    placeID = models.IntegerField(primary_key=True)
     placeCode = models.CharField(max_length=3)
     placeName = models.CharField(max_length=100)
     

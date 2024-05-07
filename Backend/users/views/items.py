@@ -1,8 +1,5 @@
-
-from django.http import JsonResponse
 from users.models import Item
 from users.serializers import ItemSerializer
-
 
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
@@ -19,7 +16,7 @@ def items_list(request):
     if request.method == 'GET':
         items = Item.objects.all()
         serializer = ItemSerializer(items, many=True)
-        return JsonResponse({"items":serializer.data}, safe=False)
+        return Response({"items":serializer.data}, safe=False)
     elif request.method == 'POST':
         serializer = ItemSerializer(data=request.data)
         if serializer.is_valid():
@@ -37,7 +34,7 @@ def item_by_id(request, id):
     
     if request.method == 'GET':
         serializer = ItemSerializer(item)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif request.method == 'PUT':
         serializer = ItemSerializer(item, data=request.data)

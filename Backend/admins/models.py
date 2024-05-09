@@ -16,8 +16,8 @@ class Admin(models.Model):
     
 class Post(models.Model):
     postID = models.AutoField(primary_key=True, unique=True)
-    adminID = models.ForeignKey(to = Admin, on_delete=models.CASCADE)
-    itemID = models.ForeignKey(to = Item, on_delete=models.CASCADE)
+    adminID = models.ForeignKey(Admin, on_delete=models.CASCADE)
+    itemID = models.ForeignKey(Item, on_delete=models.CASCADE)
     isActive = models.BooleanField(default=True)
     datePost = models.DateTimeField()
     

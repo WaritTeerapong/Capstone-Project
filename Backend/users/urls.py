@@ -9,8 +9,6 @@ urlpatterns = [
     path('log-in', views.login),
     path('log-out', views.logout),
     
-    path('search-by-photo', views.get_category),
-    
     path('users', views.users_list),
     path('users/<int:id>', views.user_by_id),
     
@@ -22,6 +20,7 @@ urlpatterns = [
     
     path('items', views.items_list),
     path('items/<int:id>', views.item_by_id),
+    path('items-category/<int:cate_id>', views.items_by_category),
     
     path('requests', views.userRequests_list),
     path('requests/<int:id>', views.userRequest_by_id),

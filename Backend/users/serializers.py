@@ -37,3 +37,9 @@ class LogInSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+        
+class ItemCategorySerializer(serializers.ModelSerializer):
+    categoryID = CategorySerializer()
+    class Meta:
+        model = Item
+        fields = ['itemID','categoryID','placeID','userID','itemName','itemDetail','placeDetail','image','isFound','dateFound']

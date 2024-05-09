@@ -33,9 +33,9 @@ class Place(models.Model):
     
 class Item(models.Model):
     itemID = models.AutoField(primary_key=True)
-    categoryID = models.ForeignKey(to = Category, on_delete=models.CASCADE)
-    placeID = models.ForeignKey(to = Place, on_delete=models.CASCADE)
-    userID = models.ForeignKey(to = User, on_delete=models.CASCADE)
+    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
+    placeID = models.ForeignKey(Place, on_delete=models.CASCADE)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
     itemName = models.CharField(max_length=100)
     itemDetail = models.TextField()
     placeDetail = models.TextField()
@@ -56,9 +56,9 @@ class Item(models.Model):
 
 class Request(models.Model):
     requestID = models.AutoField(primary_key=True, unique=True)
-    userID = models.ForeignKey( to = User, on_delete=models.CASCADE)
-    placeID = models.ForeignKey( to = Place, on_delete=models.CASCADE)
-    categoryID = models.ForeignKey( to = Category, on_delete=models.CASCADE)
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    placeID = models.ForeignKey(Place, on_delete=models.CASCADE)
+    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
     placeDetail = models.TextField()
     itemDetail = models.TextField()
     image = CloudinaryField('image')

@@ -15,23 +15,29 @@ const SearchBar = () => {
       />
       <input
                     type="text"
-                    className=" p-2 pl-[70px] w-[500px] text-gray-900 bg-gray-50 ml-[30px]  "
+                    className=" p-2 pl-[20px] w-[650px] text-gray-900 bg-gray-50 ml-[60px]  "
                     placeholder="Find what you're looking for right here....."
                     
                 />
       
       </div>
+
       <input
+                    type="file"
+                    className=" p-2 pl-[20px] w-[200px] text-gray-900 bg-gray-50 ml-[60px]  "
+                    placeholder=""
+                    src="/Vector.svg"
+                    
+                />
       
-        className="ml-[1308px] absolute top-[745px] "
-        src="/f7_camera-fill.svg"
-        alt="Image description"
-        width={30}
-        height={30}
-      />
+      </div>
       
       
-    </div>
+      
+      
+      
+      
+    
   );
 };
 

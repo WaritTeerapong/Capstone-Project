@@ -75,3 +75,9 @@ class Request(models.Model):
     
     def __str__(self):
         return self.itemDetail
+    
+class TempImage(models.Model):
+    image = CloudinaryField('image')
+    
+    def __str__(self):
+        return self.image.url

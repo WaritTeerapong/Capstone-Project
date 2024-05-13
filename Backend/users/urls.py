@@ -21,6 +21,7 @@ urlpatterns = [
     path('items', views.items_list),
     path('items/<int:id>', views.item_by_id),
     path('items-category/<int:cate_id>', views.items_by_category),
+    path('items-img', views.items_by_img),
     
     path('requests', views.userRequests_list),
     path('requests/<int:id>', views.userRequest_by_id),

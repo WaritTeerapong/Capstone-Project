@@ -59,7 +59,7 @@ def items_by_category(req,cate_id):
     try:
         items = Item.objects.filter(categoryID=cate_id)
     except Item.DoesNotExist:
-        return Response("Item in this Category not found", status=status.HTTP_404_NOT_FOUND)
+        return Response("None of the items found in the Category", status=status.HTTP_404_NOT_FOUND)
     
     if req.method == 'GET':
         serializer = ItemCategorySerializer(items, many=True)
@@ -71,20 +71,41 @@ def items_by_category(req,cate_id):
 #TODO : save pic to cloud 
 
 from users.Model import callModel
+from users.form import TempImageForm
 
-@api_view(['GET'])
-def items_by_img(req, img_path):
-    # call model -> predict and get category
-    categories = callModel.predict(img_path) #pass image path to yolov5 model
+@api_view(['GET','POST'])
+def items_by_img(req,img_path):
+    
+    if req.method == 'POST':
+        
+        #get img file through form and save it to temp model
+        form = TempImageForm(data=req.POST, files=req.FILES)
+        if form.is_valid():
+            # upload image to cloudinary
+            cloudinary.uploader.upload(req.FILES['file'])
+            img_path = cloudinary.utils.cloudinary_url(req.FILES['file'].name)[0]
+            '''
+            #another way to upload image to cloudinary
+            
+            cloudinary.uploader.upload("http://www.example.com/image.jpg", public_id = 'sample_remote')
+            cloudinary.utils.cloudinary_url("sample_remote.jpg")
 
-    try:
-        #pred_class = Category.objects.filter(categoryID=categories.item()).first() #.tensor.item() -> number
-        items = Item.objects.filter(categoryID=categories.item())
-    except Item.DoesNotExist:
-        return Response("Item in this Category not found", status=status.HTTP_404_NOT_FOUND)
+            # http://res.cloudinary.com/demo/image/upload/sample_remote.jpg'''
+        else: 
+            return Response("Invalid Form", status=status.HTTP_400_BAD_req)
+        
+        try:
+            # call model -> predict and get category
+            categories = callModel.predict(img_path) #pass image path to yolov5 model
+            #pred_class = Category.objects.filter(categoryID=categories.item()).first() #.tensor.item() -> number
+            items_cate = Item.objects.filter(categoryID=categories.item())
+            #delete temp image from cloudinary
+            imgPublicID = 'temp_img'
+            cloudinary.api.delete_resources(imgPublicID, resource_type="image", type="upload")
+        except Item.DoesNotExist:
+            return Response("None of the items found in the Category", status=status.HTTP_404_NOT_FOUND)
 
-    if req.method == 'GET':
-        serializer = ItemCategorySerializer(items, many=True)
+        serializer = ItemCategorySerializer(items_cate, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         # return Response({"predictions":predictions.tolist(),"scores":scores.tolist(),"categories":categories.tolist(),"category":pred_class.cateName}) 
         

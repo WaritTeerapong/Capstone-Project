@@ -1,8 +1,6 @@
 import os
 import yolov5 # doc: py yolov5
 
-from functools import reduce 
-
 # this is for solved error : PosixPath not found
 import pathlib
 temp = pathlib.PosixPath
@@ -14,7 +12,7 @@ env = environ.Env()
 
 #TODO : get pic from cloud 
 #TODO : pass image path to yolov5 model
-                                                       
+
 
 #internal used function
 def load_model(model_path):

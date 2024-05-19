@@ -1,7 +1,7 @@
 "use client"
 import { TextField } from '@mui/material';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import AxiosLib from '../lib/axios';
 
@@ -13,6 +13,13 @@ export default function Register() {
     password: '',
     confirmPassword: '',
   });
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+        document.body.style.overflow = 'auto';
+    };
+}, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRegister((prevRegister) => ({

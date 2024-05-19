@@ -2,7 +2,7 @@
 import AxiosLib from '@/app/lib/axios';
 import { TextField } from '@mui/material';
 import Link from 'next/link';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 export default function Login() {
@@ -10,6 +10,13 @@ export default function Login() {
         email: '',
         password: '',
     });
+
+    useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setLogin({

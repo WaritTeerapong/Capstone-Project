@@ -1,5 +1,5 @@
-from users.models import Item
-from users.serializers import ItemSerializer ,ItemCategorySerializer
+from users.models import Post
+from users.serializers import PostSerializer ,PostCategorySerializer
 
 from rest_framework.decorators import api_view 
 from rest_framework.response import Response
@@ -10,33 +10,33 @@ import cloudinary
 
 #-------------------------------------- item
 @api_view(['GET', 'POST'])
-def items_list(req):
+def posts_list(req):
     
     if req.method == 'GET':
-        items = Item.objects.all()
-        serializer = ItemSerializer(items, many=True)
-        return Response({"items":serializer.data})
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
+        return Response({"posts":serializer.data})
     elif req.method == 'POST':
-        serializer = ItemSerializer(data=req.data)
+        serializer = PostSerializer(data=req.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_req)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def item_by_id(req, id):
+def post_by_id(req, id):
     
     try:
-        item = Item.objects.get(pk=id)
-    except Item.DoesNotExist:
+        item = Post.objects.get(pk=id)
+    except Post.DoesNotExist:
         return Response("Item ID not found", status=status.HTTP_404_NOT_FOUND)
     
     if req.method == 'GET':
-        serializer = ItemSerializer(item)
+        serializer = PostSerializer(item)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     elif req.method == 'PUT':
-        serializer = ItemSerializer(item, data=req.data)
+        serializer = PostSerializer(item, data=req.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -44,7 +44,7 @@ def item_by_id(req, id):
     
     elif req.method == 'DELETE':
         # delete item image from cloudinary
-        serializer = ItemSerializer(item)
+        serializer = PostSerializer(item)
         imgPublicID = serializer.data['image'].split('/')[-1].split('.')[0]
         cloudinary.api.delete_resources(imgPublicID, resource_type="image", type="upload")
         
@@ -55,14 +55,14 @@ def item_by_id(req, id):
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET'])
-def items_by_category(req,cate_id):
+def posts_by_category(req,cate_id):
     try:
-        items = Item.objects.filter(categoryID=cate_id)
-    except Item.DoesNotExist:
-        return Response("None of the items found in the Category", status=status.HTTP_404_NOT_FOUND)
+        posts = Post.objects.filter(categoryID=cate_id)
+    except Post.DoesNotExist:
+        return Response("None of the posts found in the Category", status=status.HTTP_404_NOT_FOUND)
     
     if req.method == 'GET':
-        serializer = ItemCategorySerializer(items, many=True)
+        serializer = PostCategorySerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -74,7 +74,7 @@ from users.Model import callModel
 from users.form import TempImageForm
 
 @api_view(['GET','POST'])
-def items_by_img(req,img_path):
+def posts_by_img(req,img_path):
     
     if req.method == 'POST':
         
@@ -98,14 +98,14 @@ def items_by_img(req,img_path):
             # call model -> predict and get category
             categories = callModel.predict(img_path) #pass image path to yolov5 model
             #pred_class = Category.objects.filter(categoryID=categories.item()).first() #.tensor.item() -> number
-            items_cate = Item.objects.filter(categoryID=categories.item())
+            posts_cate = Post.objects.filter(categoryID=categories.item())
             #delete temp image from cloudinary
             imgPublicID = 'temp_img'
             cloudinary.api.delete_resources(imgPublicID, resource_type="image", type="upload")
-        except Item.DoesNotExist:
-            return Response("None of the items found in the Category", status=status.HTTP_404_NOT_FOUND)
+        except Post.DoesNotExist:
+            return Response("None of the posts found in the Category", status=status.HTTP_404_NOT_FOUND)
 
-        serializer = ItemCategorySerializer(items_cate, many=True)
+        serializer = PostCategorySerializer(posts_cate, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
         # return Response({"predictions":predictions.tolist(),"scores":scores.tolist(),"categories":categories.tolist(),"category":pred_class.cateName}) 
         

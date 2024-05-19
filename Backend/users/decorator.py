@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from users.views import home
-from users.models import User
-from admins.models import Admin
+from users.models import User,Admin
+
 
 from functools import wraps # python libs to protect the decorator function
 

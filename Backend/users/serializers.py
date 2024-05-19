@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User,Category,Place,Item,Request
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,15 +16,21 @@ class PlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = '__all__'
 
-class ItemSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
+        model = Post
         fields = '__all__'
-        
-class UserRequestSerializer(serializers.ModelSerializer):   
+    
+class PostCategorySerializer(serializers.ModelSerializer):
+    categoryID = CategorySerializer()
     class Meta:
-        model = Request
-        fields = '__all__'  
+        model = Post
+        fields = ['postID','title','categoryID','placeID','adminID','itemDetail','placeDetail','image','dateFound']
+        
+# class UserRequestSerializer(serializers.ModelSerializer):   
+#     class Meta:
+#         model = Request
+#         fields = '__all__'  
         
 class SignUpSerializer(serializers.ModelSerializer):
 
@@ -38,8 +44,14 @@ class LogInSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
         
-class ItemCategorySerializer(serializers.ModelSerializer):
-    categoryID = CategorySerializer()
+
+        
+class AdminSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Item
-        fields = ['itemID','categoryID','placeID','userID','itemName','itemDetail','placeDetail','image','isFound','dateFound']
+        model = Admin
+        fields = '__all__'
+        
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'

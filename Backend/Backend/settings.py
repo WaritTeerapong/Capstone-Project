@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     
     # apps
     'users',
-    'admins',
+
 
 
 ]

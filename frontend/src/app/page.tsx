@@ -1,23 +1,8 @@
 
 export default function Home() {
 
-
-
   return (
     <>
-      {/* <div className="bg-blue-700 h-screen flex items-center justify-center">
-        <div className="flex justify-center items-center ">
-          <div className="bg-red-600">
-            <h1 className="">Finder</h1>
-          </div>
-          <div className="bg-green-600">
-            <form className="">
-              <input type="text" placeholder="Search" />
-              <button type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </div> */}
 
       <div className="bg-blue-700 h-screen flex flex-col items-center justify-center">
       <div className="flex flex-col justify-center items-center">

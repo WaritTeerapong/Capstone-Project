@@ -15,4 +15,9 @@ GitHub.sublime-settings
 
 .env
 
+
+database.json
+DatabaseBackup.sql
+
+
 /back

@@ -59,7 +59,7 @@ class Post(models.Model):
         return super(Post, self).save(*args, **kwargs)
     
     def __str__(self):
-        return str(self.postID)
+        return str(self.title)
     
 class TempImage(models.Model):
     image = CloudinaryField('image')

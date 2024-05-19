@@ -25,7 +25,7 @@ class PostCategorySerializer(serializers.ModelSerializer):
     categoryID = CategorySerializer()
     class Meta:
         model = Post
-        fields = ['postID','title','categoryID','placeID','adminID','itemDetail','placeDetail','image','dateFound']
+        fields = ['postID','title','categoryID','placeID','adminID','itemDetail','placeDetail','image','datePost']
         
 # class UserRequestSerializer(serializers.ModelSerializer):   
 #     class Meta:

@@ -1,3 +1,4 @@
+
 "use client"
 import { TextField } from '@mui/material';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import AxiosLib from '../lib/axios';
 
 export default function Register() {
   const [register, setRegister] = useState({
-    username: '',
+    name: '',
     email: '',
     tel: '',
     password: '',
@@ -15,26 +16,29 @@ export default function Register() {
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setRegister({
+    setRegister((prevRegister) => ({
+      ...prevRegister,
+      [e.target.name]: e.target.value
+    }));
+    console.log('Updated register state:', {
       ...register,
       [e.target.name]: e.target.value
     });
-    console.log(register);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      if (!register.username || !register.email || !register.password || !register.confirmPassword) {
+      if (!register.name || !register.email || !register.password || !register.confirmPassword || !register.tel) {
         return Swal.fire('Error', 'Please fill all the fields', 'error');
-      } else if (register.username.length < 6) {
+      } else if (register.name.length < 6) {
         return Swal.fire('Error', 'Username must be at least 6 characters', 'error');
-      } else if (register.username.includes(' ')) {
+      } else if (register.name.includes(' ')) {
         return Swal.fire('Error', 'Username cannot contain space', 'error');
       } else if (!register.email.includes('@')) {
         return Swal.fire('Error', 'Please fill email correctly', 'error');
       } else if (register.tel.length < 10 || register.tel.length > 10) {
-        return Swal.fire('Error', 'Phone must be at least 10 characters', 'error');
+        return Swal.fire('Error', 'Phone number must be at least 10 characters', 'error');
       } else if (register.password.length < 8) {
         return Swal.fire('Error', 'Password must be at least 8 characters', 'error');
       } else if (!register.password.match(/[0-9]/g)) {
@@ -50,20 +54,29 @@ export default function Register() {
       } else if (register.password !== register.confirmPassword) {
         return Swal.fire('Error', 'Password must match the confirm password', 'error');
       }
+
+
       const createNewUser = {
-        username: register.username,
+        name: register.name,
         email: register.email,
+        tel: register.tel,
         password: register.password,
+        confirmPassword: register.confirmPassword,
       };
-      const result = await AxiosLib.post('/backend/user-api/sign-up', createNewUser);
+      console.log('Sending request with data:', createNewUser);
+
+      const result = await AxiosLib.post('/user-api/sign-up', createNewUser);
       console.log(result);
       if (result.status === 201) {
-        return (window.location.href = '/backend/auth/');
+        return (window.location.href = '/login');
       }
     } catch (error) {
       if ((error as any).response.status === 400 || (error as any).response.status === 500 || (error as any).response.status === 409) {
-        return Swal.fire('Error', (error as any).response.data.message, 'error');
-      }
+        const errorMessage = typeof (error as any).response.data.message === 'string'
+          ? (error as any).response.data.message
+          : JSON.stringify((error as any).response.data.message);
+        return Swal.fire('Error', errorMessage, 'error');
+      } return Swal.fire('Error', 'An error occurred. Please try again later', 'error');
     }
     console.log(register);
   };
@@ -102,8 +115,8 @@ export default function Register() {
                   className="w-full px-3 pl-0 text-sm border rounded-lg"
                   label="Username"
                   type="text"
-                  id="username"
-                  name="username"
+                  id="name"
+                  name="name"
                   onChange={handleChange}
                 />
               </div>
@@ -123,7 +136,7 @@ export default function Register() {
                 <TextField
                   className="w-full px-3 pl-0 text-sm border rounded-lg"
                   label="Phone"
-                  type="tel"
+                  type="text"
                   id="tel"
                   name="tel"
                   onChange={handleChange}

@@ -1,17 +1,13 @@
 
-from users.serializers import SignUpSerializer
-
-from users.models import User
-
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from users.models import User
+from users.serializers import SignUpSerializer
 
-from ..PasswordManagement import CheckPasswordStrength,HashingPassword
-
+from ..PasswordManagement import CheckPasswordStrength, HashingPassword
 
 
 @api_view(['GET','POST'])
@@ -36,6 +32,16 @@ def signup(req):
         telIsExisted = User.objects.filter(tel=req.data['tel']).exists()
         if telIsExisted:
             return Response(data={'message':'This Telephone number already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if 'tel' in req.data:
+        # If 'tel' key exists, proceed with checking if telephone number already exists
+            telIsExisted = User.objects.filter(tel=req.data['tel']).exists()
+            if telIsExisted:
+                return Response(data={'message': 'This Telephone number already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+        # If 'tel' key is not present in request data, return a bad request response
+            return Response(data={'message': 'Telephone number is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
         
         #checking password strength
         message = CheckPasswordStrength(req.data['password'])

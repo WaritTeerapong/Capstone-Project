@@ -8,6 +8,7 @@ from rest_framework import status
 import cloudinary.uploader
 import cloudinary
 
+
 #-------------------------------------- item
 @api_view(['GET', 'POST'])
 def posts_list(req):
@@ -22,6 +23,7 @@ def posts_list(req):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_req)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def post_by_id(req, id):
@@ -74,7 +76,7 @@ from users.Model import callModel
 from users.form import TempImageForm
 
 @api_view(['GET','POST'])
-def posts_by_img(req,img_path):
+def posts_by_img(req):
     
     if req.method == 'POST':
         
@@ -92,7 +94,7 @@ def posts_by_img(req,img_path):
 
             # http://res.cloudinary.com/demo/image/upload/sample_remote.jpg'''
         else: 
-            return Response("Invalid Form", status=status.HTTP_400_BAD_req)
+            return Response("Invalid Form", status=status.HTTP_400_BAD_REQUEST)
         
         try:
             # call model -> predict and get category

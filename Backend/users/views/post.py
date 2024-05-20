@@ -87,11 +87,13 @@ def posts_by_img(req):
             categories = callModel.predict(img_path) #pass image path to yolov5 model
             posts_cate = Post.objects.filter(categoryID=categories.item())
             
+            if posts_cate.count() == 0:
+                return Response("None of the posts found in the Category", status=status.HTTP_404_NOT_FOUND)
             #delete temp image from cloudinary
             imgPublicID = 'temp_img'
             cloudinary.api.delete_resources(imgPublicID, resource_type="image", type="upload")
-        except Post.DoesNotExist:
-            return Response("None of the posts found in the Category", status=status.HTTP_404_NOT_FOUND)
+        except Exception as error:
+                return Response(data={'message':str(e) for e in error}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = PostCategorySerializer(posts_cate, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

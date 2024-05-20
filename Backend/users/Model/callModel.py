@@ -34,7 +34,7 @@ def predict(partial_img_url):
     https://res.cloudinary.com/<cloud_name>/<asset_type>/<delivery_type>/<transformations>/<version>/<public_id_full_path>.<extension>
     '''
     cloud_name = env('CLOUD_NAME') + "/"
-    complete_img_url = "https://res.cloudinary.com/" + cloud_name + partial_img_url
+    complete_img_url = partial_img_url
     # perform inference
     results = model(complete_img_url)
     

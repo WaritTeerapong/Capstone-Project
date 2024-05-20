@@ -1,10 +1,12 @@
-import cloudinary
-import cloudinary.uploader
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from users.models import Post
-from users.serializers import PostCategorySerializer, PostSerializer
+from users.serializers import PostSerializer ,PostCategorySerializer
+
+from rest_framework.decorators import api_view 
+from rest_framework.response import Response
+from rest_framework import status
+
+import cloudinary.uploader
+import cloudinary
 
 
 #-------------------------------------- item
@@ -70,35 +72,21 @@ def posts_by_category(req,cate_id):
 
 #TODO : save pic to cloud 
 
-from users.form import TempImageForm
 from users.Model import callModel
-
 
 @api_view(['GET','POST'])
 def posts_by_img(req):
     
     if req.method == 'POST':
         
-        form = TempImageForm(files=req.FILES)
-        
-        cloudinary.uploader.upload(req.FILES['file'], public_id = 'temp_img')
-        img_path = cloudinary.utils.cloudinary_url(req.FILES['file'])
-        '''
-            #another way to upload image to cloudinary
-            
-            cloudinary.uploader.upload("http://www.example.com/image.jpg", public_id = 'sample_remote')
-            cloudinary.utils.cloudinary_url("sample_remote.jpg")
+        upload_result = cloudinary.uploader.upload(req.FILES['file'], public_id = 'temp_img')
+        img_path = upload_result['secure_url']
 
-            # http://res.cloudinary.com/demo/image/upload/sample_remote.jpg'''
-        # else: 
-        #     return Response("Invalid Form", status=status.HTTP_400_BAD_REQUEST)
-        
         try:
             # call model -> predict and get category
-            print(img_path)
             categories = callModel.predict(img_path) #pass image path to yolov5 model
-            #pred_class = Category.objects.filter(categoryID=categories.item()).first() #.tensor.item() -> number
             posts_cate = Post.objects.filter(categoryID=categories.item())
+            
             #delete temp image from cloudinary
             imgPublicID = 'temp_img'
             cloudinary.api.delete_resources(imgPublicID, resource_type="image", type="upload")

@@ -8,3 +8,8 @@ class TempImageForm(ModelForm):
     class Meta:
         model = TempImage
         fields = '__all__'
+        
+
+from django import forms
+from django.core.validators import EmailValidator  
+        

@@ -1,13 +1,22 @@
 
-from django.core.exceptions import ValidationError
-from django.core.validators import validate_email
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from users.models import User
 from users.serializers import SignUpSerializer
 
-from ..PasswordManagement import CheckPasswordStrength, HashingPassword
+from users.models import User
+
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+from ..PasswordManagement import CheckPasswordStrength,HashingPassword
+
+from users.models import User
+import jwt, datetime
+import environ
+
+env = environ.Env()
 
 
 @api_view(['GET','POST'])
@@ -33,16 +42,6 @@ def signup(req):
         if telIsExisted:
             return Response(data={'message':'This Telephone number already exists'}, status=status.HTTP_400_BAD_REQUEST)
         
-        if 'tel' in req.data:
-        # If 'tel' key exists, proceed with checking if telephone number already exists
-            telIsExisted = User.objects.filter(tel=req.data['tel']).exists()
-            if telIsExisted:
-                return Response(data={'message': 'This Telephone number already exists'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-        # If 'tel' key is not present in request data, return a bad request response
-            return Response(data={'message': 'Telephone number is required'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        
         #checking password strength
         message = CheckPasswordStrength(req.data['password'])
         if message != "":
@@ -58,6 +57,19 @@ def signup(req):
         if serializer.is_valid():
             try:
                 serializer.save()
+                
+                #generate token using  
+                user = User.objects.get(email=req.data['email'])          
+                payload = {
+                    'id' : user.userID,
+                    'exp' : datetime.datetime.now() + datetime.timedelta(minutes=60),
+                    'iat' : datetime.datetime.now()
+                }
+                token = jwt.encode(payload, env('jwt_secret') , algorithm='HS256')
+                response = Response()
+                response.set_cookie(key='token', value=token, httponly=True)
+                
+                
             except Exception as error:
                 return Response(data={'message':str(e) for e in error}, status=status.HTTP_400_BAD_REQUEST)
         else:

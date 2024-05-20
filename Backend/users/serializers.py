@@ -16,10 +16,18 @@ class PlaceSerializer(serializers.ModelSerializer):
         model = Place
         fields = '__all__'
 
+class AdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = '__all__'
+        
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
+        categoryID = CategorySerializer()
+        placeID = PlaceSerializer()
+        adminID = AdminSerializer()
         model = Post
-        fields = '__all__'
+        fields = ['postID','title','categoryID','placeID','adminID','itemDetail','placeDetail','image','datePost']
     
 class PostCategorySerializer(serializers.ModelSerializer):
     categoryID = CategorySerializer()
@@ -46,12 +54,5 @@ class LogInSerializer(serializers.ModelSerializer):
         
 
         
-class AdminSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Admin
-        fields = '__all__'
+
         
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = '__all__'

@@ -12,7 +12,7 @@ from users.serializers import PostCategorySerializer, PostSerializer
 def posts_list(req):
     
     if req.method == 'GET':
-        posts = Post.objects.all()
+        posts = Post.objects.select_related().all()
         serializer = PostSerializer(posts, many=True)
         return Response({"posts":serializer.data})
     elif req.method == 'POST':
@@ -80,7 +80,7 @@ def posts_by_img(req):
     if req.method == 'POST':
         
         #get img file through form and save it to temp model
-        form = TempImageForm(data=req.POST, files=req.FILES)
+        form = TempImageForm(files=req.FILES)
         if form.is_valid():
             # upload image to cloudinary
             cloudinary.uploader.upload(req.FILES['file'])

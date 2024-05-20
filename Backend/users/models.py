@@ -43,9 +43,9 @@ class Admin(models.Model):
 class Post(models.Model):
     postID = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=256, default="Lost item")
-    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE)
-    placeID = models.ForeignKey(Place, on_delete=models.CASCADE)
-    adminID = models.ForeignKey(Admin, on_delete=models.CASCADE)
+    categoryID = models.ForeignKey(Category, on_delete=models.CASCADE,related_name="categoryID")
+    placeID = models.ForeignKey(Place, on_delete=models.CASCADE,related_name="placeID")
+    adminID = models.ForeignKey(Admin, on_delete=models.CASCADE,related_name="adminID")
     itemDetail = models.TextField()
     placeDetail = models.TextField()
     image = CloudinaryField('image')

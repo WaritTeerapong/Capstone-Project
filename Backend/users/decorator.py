@@ -7,9 +7,7 @@ from rest_framework import status
 from users.views import home
 from users.models import User,Admin
 
-
 from functools import wraps # python libs to protect the decorator function
-
 
 
 def required_login(view_func):

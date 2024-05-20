@@ -1,12 +1,10 @@
-from users.models import Post
-from users.serializers import PostSerializer ,PostCategorySerializer
-
-from rest_framework.decorators import api_view 
-from rest_framework.response import Response
-from rest_framework import status
-
-import cloudinary.uploader
 import cloudinary
+import cloudinary.uploader
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from users.models import Post
+from users.serializers import PostCategorySerializer, PostSerializer
 
 
 #-------------------------------------- item
@@ -72,8 +70,9 @@ def posts_by_category(req,cate_id):
 
 #TODO : save pic to cloud 
 
-from users.Model import callModel
 from users.form import TempImageForm
+from users.Model import callModel
+
 
 @api_view(['GET','POST'])
 def posts_by_img(req):

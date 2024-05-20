@@ -1,11 +1,11 @@
 import { createContext } from 'react';
 
 export const ContextValue = {
-    username: '',
+    name: '',
     email: '',
-    phone:'',
+    tel:'',
     password: '',
-    confirmPassword: '',
+    // confirmPassword: '',
 };
 
 export const AuthContext = createContext(null);

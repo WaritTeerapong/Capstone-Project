@@ -79,24 +79,23 @@ def posts_by_img(req):
     
     if req.method == 'POST':
         
-        #get img file through form and save it to temp model
         form = TempImageForm(files=req.FILES)
-        if form.is_valid():
-            # upload image to cloudinary
-            cloudinary.uploader.upload(req.FILES['file'])
-            img_path = cloudinary.utils.cloudinary_url(req.FILES['file'].name)[0]
-            '''
+        
+        cloudinary.uploader.upload(req.FILES['file'], public_id = 'temp_img')
+        img_path = cloudinary.utils.cloudinary_url(req.FILES['file'])
+        '''
             #another way to upload image to cloudinary
             
             cloudinary.uploader.upload("http://www.example.com/image.jpg", public_id = 'sample_remote')
             cloudinary.utils.cloudinary_url("sample_remote.jpg")
 
             # http://res.cloudinary.com/demo/image/upload/sample_remote.jpg'''
-        else: 
-            return Response("Invalid Form", status=status.HTTP_400_BAD_REQUEST)
+        # else: 
+        #     return Response("Invalid Form", status=status.HTTP_400_BAD_REQUEST)
         
         try:
             # call model -> predict and get category
+            print(img_path)
             categories = callModel.predict(img_path) #pass image path to yolov5 model
             #pred_class = Category.objects.filter(categoryID=categories.item()).first() #.tensor.item() -> number
             posts_cate = Post.objects.filter(categoryID=categories.item())

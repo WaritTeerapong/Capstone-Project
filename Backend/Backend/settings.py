@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'corsheaders',
     'cloudinary',
     
     # apps
@@ -60,6 +60,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cors.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Backend.urls'
@@ -93,7 +96,9 @@ DATABASES = {
     }
 }
 
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000/",
+]
 
 
 # Password validation
@@ -143,12 +148,6 @@ import cloudinary.uploader
 import cloudinary.api
 
 # Cloudinary-Django integrates
-
-# cloudinary.config(
-#     cloud_name = env('CLOUD_NAME'),
-#     api_key= env('API_KEY'),
-#     api_secret= env('API_SECRET')
-# )
 cloudinary.config(
     cloud_name=env('CLOUD_NAME'),
     api_key=env("API_KEY"),

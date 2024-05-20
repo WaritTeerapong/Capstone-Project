@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+
 from users.models import Category
 from users.serializers import CategorySerializer
 
@@ -14,7 +14,7 @@ def categories_list(request):
         category = Category.objects.all()
 
         serializer = CategorySerializer(category, many=True)
-        return JsonResponse({"category":serializer.data}, safe=False)
+        return Response({"category":serializer.data}, safe=False)
     
     #POST a new category
     elif request.method == 'POST':
@@ -34,7 +34,7 @@ def category_by_id(request, id):
     
     if request.method == 'GET':
         serializer = CategorySerializer(category)
-        return JsonResponse(serializer.data)
+        return Response(serializer.data)
     
     elif request.method == 'PUT':
         serializer = CategorySerializer(category, data=request.data)

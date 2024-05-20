@@ -18,7 +18,7 @@ def users_list(request):
         serializer = UserSerializer(users, many=True)
         #return json
         return Response({"users":serializer.data})
-   #POST a new user
+    #POST a new user
     elif request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -54,4 +54,20 @@ def user_by_id(request, id):
         return Response(data={'message':'User deleted successfully'},status=status.HTTP_204_NO_CONTENT)
     
     return Response(data={'message':'Method Not Allowed'},status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        
+
+
+@api_view(['GET'])
+def user_by_token(request, token):
+    
+    #find user by token
+    try:
+        user = User.objects.get(token=token)
+    except User.DoesNotExist:
+        return Response(data={'message':"User not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    #Get a user by token
+    if request.method == 'GET':
+        serializer = UserSerializer(user,many=False)
+        return Response(serializer.data)
+    
+    return Response(data={'message':'Method Not Allowed'},status=status.HTTP_405_METHOD_NOT_ALLOWED)

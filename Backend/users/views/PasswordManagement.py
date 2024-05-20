@@ -1,6 +1,6 @@
 import bcrypt 
- 
- #checking password strongness
+
+#checking password strongness
 def CheckPasswordStrength(password):
     isUpper = False
     isLower = False
@@ -45,7 +45,7 @@ def HashingPassword (password):
     # Hashing the password 
     hash = bcrypt.hashpw(bytes, salt).decode('utf-8')
     return hash
-  
+
 def MatchingPassword (password,hashedPassword):
     # encoding user password to array of bytes
     userBytes = password.encode('utf-8') 
